@@ -1,0 +1,164 @@
+{
+    "info": {
+        "_postman_id": "e5966bc9-73f5-4ba5-baf8-1920793964ce",
+        "name": "Z-Collections",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "38711642"
+    },
+    "item": [
+        {
+            "name": "Login",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Response status code is 200\", function () {",
+                            "  pm.expect(pm.response.code).to.equal(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response time is within an acceptable range\", function () {",
+                            "  pm.expect(pm.response.responseTime).to.be.below(500);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has the required fields\", function () {",
+                            "    const responseData = pm.response.json();",
+                            "    ",
+                            "    pm.expect(responseData).to.be.an('object');",
+                            "    pm.expect(responseData).to.include.all.keys('success', 'status_code', 'message', 'data', 'patch_data');",
+                            "});",
+                            "",
+                            "pm.test(\"Access token and refresh token should not be empty strings\", function () {",
+                            "  const responseData = pm.response.json();",
+                            "  ",
+                            "  pm.expect(responseData.data.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Access token should not be empty\");",
+                            "  pm.expect(responseData.data.refresh_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Refresh token should not be empty\");",
+                            "});",
+                            ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Cookie",
+                        "value": "Cookie_1=value; Cookie_11=value; PHPSESSID=0phne54fnm8o0n3mpuk5ovq3gs; Z-Request-ID=MjAxMDU%3D; _role_id=CSBrandAdmin; _zenarate_id=1; account_id=514; central_jwt_refresh_token=\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyMDEwNSwiYWNjb3VudF9pZCI6NTE0LCJicmFuZF9pZCI6MTIsInVzZXJfcm9sZSI6IkJyYW5kQWRtaW4iLCJhY2Nlc3NfdHlwZSI6ImxvZ2luX2NyZWRzIiwic3dpdGNoZWQiOnt9LCJpbXBlcnNvbmF0ZSI6e30sIm9yaWdpbmFsX3VzZXIiOnsidXNlcl9pZCI6MjAxMDUsImFjY291bnRfaWQiOjUxNCwiYnJhbmRfaWQiOjEyLCJ1c2VyX3JvbGUiOiJCcmFuZEFkbWluIiwiYWNjZXNzX3R5cGUiOiJsb2dpbl9jcmVkcyIsImNsYWltcyI6e30sIm1ldGFfZGF0YSI6eyJkZWNvZGVfbWV0aG9kIjoiIn19LCJpYXQiOjE3NDAwMjgzNzQsInJlZnJlc2giOiJyZWZyZXNoXzE3NDAwMjgzNzQifQ.xF2Mew5jdu22LrBaO2snRPprwQlndIcoBKDaTJX9hvQ\"; central_jwt_token=\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyMDEwNSwiYWNjb3VudF9pZCI6NTE0LCJicmFuZF9pZCI6MTIsInVzZXJfcm9sZSI6IkJyYW5kQWRtaW4iLCJhY2Nlc3NfdHlwZSI6ImxvZ2luX2NyZWRzIiwic3dpdGNoZWQiOnt9LCJpbXBlcnNvbmF0ZSI6e30sIm9yaWdpbmFsX3VzZXIiOnsidXNlcl9pZCI6MjAxMDUsImFjY291bnRfaWQiOjUxNCwiYnJhbmRfaWQiOjEyLCJ1c2VyX3JvbGUiOiJCcmFuZEFkbWluIiwiYWNjZXNzX3R5cGUiOiJsb2dpbl9jcmVkcyIsImNsYWltcyI6e30sIm1ldGFfZGF0YSI6eyJkZWNvZGVfbWV0aG9kIjoiIn19LCJpYXQiOjE3NDAwMTgzOTksImV4cCI6MTc0MDA0NTM5OX0.WMSjhxg5_ht98FKhViQBlW-34D9-a9_DRvTrxQM5DS4\"; loggedin_id=20105"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"user_id\": \"335854\",\n    \"session_id\": \"11\",\n    \"user_switch_role_id\": \"0\",\n    \"password\": \"$argon2id$v=19$m=65536,t=4,p=1$UFBZR3N6Snc3bkVLbFMuVA$Y6/PSEPMusQJvoDHgM/h5cMclUseA1AF+ELWWAAEWQ0\",\n    \"host_name\": \"<string>\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "https://qa2.zenarate.com/platform/auth/login",
+                    "protocol": "https",
+                    "host": [
+                        "qa2",
+                        "zenarate",
+                        "com"
+                    ],
+                    "path": [
+                        "platform",
+                        "auth",
+                        "login"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Login Copy",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "pm.test(\"Response status code is 200\", function () {",
+                            "  pm.expect(pm.response.code).to.equal(200);",
+                            "});",
+                            "",
+                            "pm.test(\"Response time is within an acceptable range\", function () {",
+                            "  pm.expect(pm.response.responseTime).to.be.below(500);",
+                            "});",
+                            "",
+                            "pm.test(\"Response has the required fields\", function () {",
+                            "    const responseData = pm.response.json();",
+                            "    ",
+                            "    pm.expect(responseData).to.be.an('object');",
+                            "    pm.expect(responseData).to.include.all.keys('success', 'status_code', 'message', 'data', 'patch_data');",
+                            "});",
+                            "",
+                            "pm.test(\"Access token and refresh token should not be empty strings\", function () {",
+                            "  const responseData = pm.response.json();",
+                            "  ",
+                            "  pm.expect(responseData.data.access_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Access token should not be empty\");",
+                            "  pm.expect(responseData.data.refresh_token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Refresh token should not be empty\");",
+                            "});",
+                            ""
+                        ],
+                        "type": "text/javascript",
+                        "packages": {}
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Cookie",
+                        "value": "Cookie_1=value; Cookie_11=value; PHPSESSID=0phne54fnm8o0n3mpuk5ovq3gs; Z-Request-ID=MjAxMDU%3D; _role_id=CSBrandAdmin; _zenarate_id=1; account_id=514; central_jwt_refresh_token=\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyMDEwNSwiYWNjb3VudF9pZCI6NTE0LCJicmFuZF9pZCI6MTIsInVzZXJfcm9sZSI6IkJyYW5kQWRtaW4iLCJhY2Nlc3NfdHlwZSI6ImxvZ2luX2NyZWRzIiwic3dpdGNoZWQiOnt9LCJpbXBlcnNvbmF0ZSI6e30sIm9yaWdpbmFsX3VzZXIiOnsidXNlcl9pZCI6MjAxMDUsImFjY291bnRfaWQiOjUxNCwiYnJhbmRfaWQiOjEyLCJ1c2VyX3JvbGUiOiJCcmFuZEFkbWluIiwiYWNjZXNzX3R5cGUiOiJsb2dpbl9jcmVkcyIsImNsYWltcyI6e30sIm1ldGFfZGF0YSI6eyJkZWNvZGVfbWV0aG9kIjoiIn19LCJpYXQiOjE3NDAwMjgzNzQsInJlZnJlc2giOiJyZWZyZXNoXzE3NDAwMjgzNzQifQ.xF2Mew5jdu22LrBaO2snRPprwQlndIcoBKDaTJX9hvQ\"; central_jwt_token=\"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoyMDEwNSwiYWNjb3VudF9pZCI6NTE0LCJicmFuZF9pZCI6MTIsInVzZXJfcm9sZSI6IkJyYW5kQWRtaW4iLCJhY2Nlc3NfdHlwZSI6ImxvZ2luX2NyZWRzIiwic3dpdGNoZWQiOnt9LCJpbXBlcnNvbmF0ZSI6e30sIm9yaWdpbmFsX3VzZXIiOnsidXNlcl9pZCI6MjAxMDUsImFjY291bnRfaWQiOjUxNCwiYnJhbmRfaWQiOjEyLCJ1c2VyX3JvbGUiOiJCcmFuZEFkbWluIiwiYWNjZXNzX3R5cGUiOiJsb2dpbl9jcmVkcyIsImNsYWltcyI6e30sIm1ldGFfZGF0YSI6eyJkZWNvZGVfbWV0aG9kIjoiIn19LCJpYXQiOjE3NDAwMTgzOTksImV4cCI6MTc0MDA0NTM5OX0.WMSjhxg5_ht98FKhViQBlW-34D9-a9_DRvTrxQM5DS4\"; loggedin_id=20105"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"user_id\": \"335854\",\n    \"session_id\": \"11\",\n    \"user_switch_role_id\": \"0\",\n    \"password\": \"$argon2id$v=19$m=65536,t=4,p=1$UFBZR3N6Snc3bkVLbFMuVA$Y6/PSEPMusQJvoDHgM/h5cMclUseA1AF+ELWWAAEWQ0\",\n    \"host_name\": \"<string>\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "https://qa2.zenarate.com/platform/auth/login",
+                    "protocol": "https",
+                    "host": [
+                        "qa2",
+                        "zenarate",
+                        "com"
+                    ],
+                    "path": [
+                        "platform",
+                        "auth",
+                        "login"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}
