@@ -5,9 +5,10 @@ import requests  # Import the requests library
 
 # Define paths
 #COLLECTION_FILE = "/Users/macofapurv/Desktop/Collection Automation/Z-Collections.postman_collection.json" # Local file
-COLLECTION_URL = "YOUR_COLLECTION_URL_HERE"  # URL to your Postman collection (e.g., a raw GitHub file, Postman API)
+COLLECTION_URL = ""  # URL to your Postman collection (e.g., a raw GitHub file, Postman API)
 REPORT_FILE = "report.json"
 HTML_REPORT_FILE = "report.html"
+TEMP_COLLECTION_FILE = "temp_collection.json"
 
 
 def get_latest_collection(collection_url):
@@ -60,11 +61,11 @@ def run_postman_collection(collection_data):
     """Executes a Postman Collection using Newman and generates a JSON report, using in-memory collection data."""
 
     # Create a temporary file to hold the collection data
-    with open("temp_collection.json", "w") as f:
+    with open(TEMP_COLLECTION_FILE, "w") as f:
         json.dump(collection_data, f, indent=4)  # Write the JSON to the temp file
 
     command = [
-        "newman", "run", "temp_collection.json",  # Run Newman against the temp file
+        "newman", "run", TEMP_COLLECTION_FILE,  # Run Newman against the temp file
         "--reporters", "json",
         "--reporter-json-export", REPORT_FILE
     ]
@@ -80,13 +81,8 @@ def run_postman_collection(collection_data):
         print("Error details:", e.stderr)  # Print standard error for debugging
     except Exception as e:
         print("❌ Error running Newman:", e)
-    finally:
-        # Clean up the temporary file
-        try:
-            os.remove("temp_collection.json")
-            print("✅ Temporary collection file removed.")
-        except OSError as e:
-            print(f"⚠️  Error deleting temporary file: {e}") #Non-critical error
+
+
 
 def analyze_report():
     """Parses the JSON report and prints test results."""
@@ -108,12 +104,11 @@ def analyze_report():
     print(f"Failed: {summary.get('assertions', {}).get('failed', 0)}")
 
 
-def generate_html_report():
+def generate_html_report(collection_data):
     """Generates an HTML report from the collection run."""
-
-    # The command will use the last used collection file(temp_collection.json)
+        
     command = [
-        "newman", "run", "temp_collection.json",  #Fixed: using temp_collection.json
+        "newman", "run", TEMP_COLLECTION_FILE,
         "--reporters", "html",
         "--reporter-html-export", HTML_REPORT_FILE
     ]
@@ -123,6 +118,19 @@ def generate_html_report():
         print(f"✅ HTML report generated: {HTML_REPORT_FILE}")
     except subprocess.CalledProcessError as e:
         print("❌ Failed to generate HTML report:", e)
+
+
+
+def delete_existing_temp_file():
+    """Deletes the temporary collection file if it exists."""
+    if os.path.exists(TEMP_COLLECTION_FILE):
+        try:
+            os.remove(TEMP_COLLECTION_FILE)
+            print(f"✅ Existing {TEMP_COLLECTION_FILE} deleted.")
+        except OSError as e:
+            print(f"⚠️  Error deleting {TEMP_COLLECTION_FILE}: {e}")
+
+
 
 if __name__ == "__main__":
     # Define the new 'exec' code to use for ALL 'exec' blocks
@@ -137,6 +145,9 @@ if __name__ == "__main__":
         "});"
     ]
 
+    # 0. Delete the temporary collection file if it exists (to ensure fresh start)
+    delete_existing_temp_file()
+
     # 1. Get the latest collection from the URL
     collection_data = get_latest_collection(COLLECTION_URL)
 
@@ -148,7 +159,7 @@ if __name__ == "__main__":
             # 3. Run the Postman collection using the updated data
             run_postman_collection(updated_collection_data) #pass the collection data to the run_postman_collection
             analyze_report()
-            generate_html_report()
+            generate_html_report(updated_collection_data)
         else:
             print("❌ Aborted: Failed to update collection data.")
     else:
