@@ -27,6 +27,10 @@ DEFAULT_TESTS = [
     "    var jsonData = pm.response.json();",
     "    pm.expect(jsonData).to.have.property('success');",
     "    pm.expect(jsonData.success).to.be.true;",
+    "});",
+    "",
+    "pm.test('Response time is less than 2 seconds', function() {",
+    "    pm.expect(pm.response.responseTime).to.be.below(2000);",
     "});"
 ]
 
